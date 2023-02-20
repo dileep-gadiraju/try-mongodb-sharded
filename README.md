@@ -71,5 +71,11 @@ kubectl port-forward --namespace mongodb svc/mongodb-sharded  27017:27017 &
 ### Add Test Data and check shard distribution
 
 ```
+for (var i = 1; i <= 10000; i++) {
+   db.employees.insertOne( { employeeId : i, employeeName:"Test "+i } )
+}
+```
 
+```
+    db.employees.getShardDistribution()
 ```
