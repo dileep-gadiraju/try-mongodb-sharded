@@ -42,3 +42,34 @@ kubectl port-forward --namespace mongodb svc/mongodb-sharded  27017:27017 &
     mongosh --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
 ```
 
+### List shards
+
+```
+    use admin
+    db.runCommand(
+        {
+            listShards: 1
+        }
+    )
+```
+
+### 
+
+
+### Create database and enable Sharding
+```
+    use test
+    sh.enableSharding("test")
+```
+
+### Create collection and Shard
+```
+  db.createCollection("employees")
+  sh.shardCollection("test.employees" , { "employeeId" : 1 , "employeeName" : 1})
+```
+
+### Add Test Data and check shard distribution
+
+```
+
+```
