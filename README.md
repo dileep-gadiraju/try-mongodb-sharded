@@ -65,7 +65,7 @@ kubectl port-forward --namespace mongodb svc/mongodb-sharded  27017:27017 &
 ### Create collection and Shard
 ```
   db.createCollection("employees")
-  sh.shardCollection("test.employees" , { "employeeId" : 1 , "employeeName" : 1})
+  sh.shardCollection("test.employees" , { "employeeId" : "hashed"})
 ```
 
 ### Add Test Data and check shard distribution
@@ -79,3 +79,19 @@ for (var i = 1; i <= 10000; i++) {
 ```
     db.employees.getShardDistribution()
 ```
+
+### Queries
+```
+    Stats of collection: 
+        db.employees.stats()
+    Indexes of collection: 
+        db.employees.getIndexes()
+    Execution stats of query with employeeId query: 
+        db.employees.find({employeeId:1001}).explain("executionStats")
+    Execution stats of query with employeeId $in query: 
+        db.employees.find({employeeId:{ $in: [ 255, 99,1005,6321 ] }}).explain("executionStats")
+
+    Execution stats of query with employeeId $gt,$lt query resulting in COLLSCAN stage:
+        db.employees.find({employeeId:{$gt:30,$lt:250}}).explain("executionStats")
+```
+
