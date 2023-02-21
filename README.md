@@ -112,7 +112,7 @@ for (var i = 1; i <= 1000; i++) {
 }
 
 db.Brand.getShardDistribution()
+
+db.Brand.find({state: 'up79', schoolId:'0967079'}).explain("executionStats")
 ```
-
-
 
