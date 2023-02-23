@@ -114,5 +114,14 @@ for (var i = 1; i <= 1000; i++) {
 db.Brand.getShardDistribution()
 
 db.Brand.find({state: 'up79', schoolId:'0967079'}).explain("executionStats")
+db.Brand.find({ state: { $exists: false } }).explain("executionStats")
 ```
 
+
+### General MongoDB Monitoring commands
+1.  Server status `db.serverStatus()`
+2.  Server locks `db.serverStatus().locks`
+3.  Salted Challenge Response Authentication Mechanism (SCRAM) used by default 
+    `db.serverStatus().scramCache`
+4.  Server Metrics `db.serverStatus().metrics`
+5.  
