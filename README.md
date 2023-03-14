@@ -127,3 +127,4 @@ db.Brand.find({ state: { $exists: false } }).explain("executionStats")
     `db.serverStatus().scramCache`
 4.  Server Metrics `db.serverStatus().metrics`
 5.  To enable/disable free monitoring `db.enableFreeMonitoring()` `db.disableFreeMonitoring()`
+6.  `db.runCommand( { serverStatus: 1, mirroredReads: 1,latchAnalysis: 1 } )`
