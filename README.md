@@ -95,6 +95,8 @@ for (var i = 1; i <= 10000; i++) {
 
     Execution stats of query with employeeId $gt,$lt query resulting in COLLSCAN stage:
         db.employees.find({employeeId:{$gt:30,$lt:250}}).explain("executionStats")
+
+        mongotop 30 <options> <connection-string> <polling interval in seconds>
 ```
 
 ```
@@ -124,4 +126,4 @@ db.Brand.find({ state: { $exists: false } }).explain("executionStats")
 3.  Salted Challenge Response Authentication Mechanism (SCRAM) used by default 
     `db.serverStatus().scramCache`
 4.  Server Metrics `db.serverStatus().metrics`
-5.  
+5.  To enable/disable free monitoring `db.enableFreeMonitoring()` `db.disableFreeMonitoring()`
