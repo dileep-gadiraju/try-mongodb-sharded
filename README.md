@@ -44,6 +44,10 @@ kubectl port-forward --namespace mongodb svc/mongodb-sharded  27017:27017 &
     mongosh --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
 ```
 
+```
+    nmap -p 27017 localhost
+```
+
 ### List shards
 
 ```
