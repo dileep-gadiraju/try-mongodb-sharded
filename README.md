@@ -3,6 +3,13 @@ try-mongodb-sharded using bitnami/mongodb-sharded
 
 References: https://github.com/bitnami/charts/tree/main/bitnami/mongodb-sharded
 
+## Install Kind cluster
+
+```
+    kind create cluster --name mongodb --image=kindest/node:v1.21.2
+    kubectl cluster-info --context kind-mongodb
+```
+
 ## Steps to deploy sharded mongodb on k8s using bitnami/mongodb-sharded helm chart with default values.
 
 ```
@@ -10,8 +17,15 @@ References: https://github.com/bitnami/charts/tree/main/bitnami/mongodb-sharded
     kubectl config set-context --current --namespace=mongodb
 ```
 
+## Docker compose deployment
+```
+sudo docker-compose up --build -d
+
+```
+
 ```
     helm repo add my-repo https://charts.bitnami.com/bitnami
+    helm install mongodb-sharded --set auth.rootUser=root,auth.rootPassword=admin,configsvr.mongodbExtraFlags="--bind_ip_all",shardsvr.dataNode.mongodbExtraFlags="--bind_ip_all",image.debug="true"  bitnami/mongodb-sharded
     helm install mongodb-sharded bitnami/mongodb-sharded
 ```
 
@@ -40,7 +54,7 @@ kubectl run --namespace mongodb mongodb-sharded-client --rm --tty -i --restart='
 
 ```
 
-kubectl port-forward --namespace mongodb svc/mongodb-sharded  27017:27017 &
+kubectl port-forward --namespace mongodb svc/mongodb-sharded  27017:27017 &&
     mongosh --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
 ```
 
