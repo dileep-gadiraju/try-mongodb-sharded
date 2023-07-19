@@ -176,4 +176,4 @@ db.Brand.find({ state: { $exists: false } }).explain("executionStats")
             "Name.First Name" : NumberInt(1)
             }).comment( "Find all Johnstons and display their full names alphabetically" );
         ```
-    7.  
+    7.  [MongoDB CDC](./mongodb-cdc.md)
