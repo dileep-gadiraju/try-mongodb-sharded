@@ -86,7 +86,18 @@ public class MongoDbChangeStreamsConfig implements ApplicationListener<Applicati
             ChangeStreamIterable<Customer> customerChangeStream = customers.watch(pipeline);
             MongoChangeStreamCursor<ChangeStreamDocument<Customer>> cursor =
                     customerChangeStream.cursor();
-
+            //startAfter
+            // customerChangeStream.startAfter(bsonDocument).forEach(c->{
+            //     System.out
+            //             .println(String.format("Resume Token %s", c.getResumeToken().get("_data")));
+            //     System.out.println(String.format("Document Key %s", c.getDocumentKey()));
+            //     System.out.println(String.format("Full Document before change %s",
+            //             c.getFullDocumentBeforeChange()));
+            //     System.out.println(String.format("Update Desc %s", c.getUpdateDescription()));
+            //     System.out.println(String.format("Cluster Time %s", c.getClusterTime()));
+            //     System.out.println(String.format("Operation Type %s", c.getOperationType()));                
+            // });
+            //resumeAfter
             customerChangeStream.resumeAfter(bsonDocument).forEach(c -> {
                 System.out
                         .println(String.format("Resume Token %s", c.getResumeToken().get("_data")));
