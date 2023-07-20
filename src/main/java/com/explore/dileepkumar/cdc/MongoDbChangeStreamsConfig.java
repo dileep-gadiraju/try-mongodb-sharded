@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import com.explore.dileepkumar.cdc.customer.Customer;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.client.ChangeStreamIterable;
+import com.mongodb.client.MongoChangeStreamCursor;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -37,7 +39,7 @@ public class MongoDbChangeStreamsConfig implements ApplicationListener<Applicati
     @Value("${mongodb.cdc.resumeToken}")
     private String resumeToken;
 
-    @Value("#{'${mongodb.cdc.operationTypes}'.split(',')}") 
+    @Value("#{'${mongodb.cdc.operationTypes}'.split(',')}")
     private List<String> operationTypes;
 
     // @Override
@@ -73,13 +75,34 @@ public class MongoDbChangeStreamsConfig implements ApplicationListener<Applicati
         try (MongoClient mongoClient = MongoClients.create(clientSettings)) {
             MongoDatabase db = mongoClient.getDatabase(connectionString.getDatabase());
             MongoCollection<Customer> customers = db.getCollection("customers", Customer.class);
+
             BsonValue value = new BsonString(resumeToken);
             BsonDocument bsonDocument = new BsonDocument("_data", value);
-            List<Bson> pipeline = Collections.singletonList(Aggregates
-                    .match(Filters.in("operationType", operationTypes)));
-             System.out.println(bsonDocument); 
-            customers.watch(pipeline).resumeAfter(bsonDocument).forEach(printEvent());
+            List<Bson> pipeline = Collections
+                    .singletonList(Aggregates.match(Filters.in("operationType", operationTypes)));
+
+            // System.out.println(bsonDocument);
+
+            ChangeStreamIterable<Customer> customerChangeStream = customers.watch(pipeline);
+            MongoChangeStreamCursor<ChangeStreamDocument<Customer>> cursor =
+                    customerChangeStream.cursor();
+
+            customerChangeStream.resumeAfter(bsonDocument).forEach(c -> {
+                System.out
+                        .println(String.format("Resume Token %s", c.getResumeToken().get("_data")));
+                System.out.println(String.format("Document Key %s", c.getDocumentKey()));
+                System.out.println(String.format("Full Document before change %s",
+                        c.getFullDocumentBeforeChange()));
+                System.out.println(String.format("Update Desc %s", c.getUpdateDescription()));
+                System.out.println(String.format("Cluster Time %s", c.getClusterTime()));
+                System.out.println(String.format("Operation Type %s", c.getOperationType()));
+            });
+
+            // customers.watch(pipeline).resumeAfter(bsonDocument).forEach(printEvent());
+
+            /* Without resume option */
             // customers.watch().forEach(printEvent());
+
         }
     }
 
