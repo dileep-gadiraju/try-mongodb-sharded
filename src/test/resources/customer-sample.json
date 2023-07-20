@@ -1,0 +1,16 @@
+{
+    "_id": {
+      "$oid": "64b79c6ee92436d1688c4674"
+    },
+    "firstName": "Ram",
+    "lastName": "Mohan",
+    "type": "Platinum",
+    "address": {
+      "addressLine1": "Apartment name",
+      "addressLine2": "Flat 222,M1 Block,Area Name",
+      "city": "bengulur",
+      "state": "karnataka",
+      "country": "india",
+      "zipCode": "560099"
+    }
+  }

@@ -10,6 +10,7 @@ MongoDB Using docker-compos:
     `sudo docker-compose --env-file .my-env up`
     `sudo docker-compose --env-file .my-env down`
 
-1.  Run [ChangeStreamsApplication](./src/main/java/com/explore/dileepkumar/cdc/ChangeStreamsApplication.java)
-2. 
+1. Run [ChangeStreamsApplication](./src/main/java/com/explore/dileepkumar/cdc/ChangeStreamsApplication.java)
+2. Execute `rs.printReplicationInfo()` on mongo terminal.
+3. 
 
