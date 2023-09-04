@@ -1,7 +1,7 @@
 ```
 var productSeasonalityUpdateList = [];
 db.productSeasonalityList.find({productId:  { $in: ["000000000040000303","000000000030000141","000000000022563818","000000000022550218"] } }).forEach(function(doc){ 
-    print('found each record..')
+        print('For productId :: '+doc.productId)
         productSeasonalityUpdateList.push({
         "updateOne": {
             "filter": { "_id": doc._id },
